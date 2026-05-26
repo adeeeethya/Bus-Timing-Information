@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Schedule</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/523681.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 900px;
+
+            background-color: rgba(255, 255, 255, 0.88);
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: rgb(0, 123, 255);
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+
+            border: 1px solid rgb(206, 212, 218);
+            border-radius: 5px;
+
+            min-width: 250px;
+        }
+
+        button {
+            padding: 10px 20px;
+
+            font-size: 16px;
+
+            color: white;
+
+            background-color: rgb(40, 167, 69);
+
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(33, 136, 56);
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            background-color: rgba(255,255,255,0.95);
+        }
+
+        th, td {
+            padding: 12px;
+
+            text-align: center;
+
+            border-bottom: 1px solid rgb(206, 212, 218);
+        }
+
+        th {
+            background-color: rgb(0, 123, 255);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgb(248, 249, 250);
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Bus Schedule</h1>
+
+        <form method="POST">
+
+            <select name="route">
+
+                <option value="">Select a route</option>
+
+                {% for route in routes %}
+                    <option value="{{ route }}"
+                        {% if route == selected_route %}selected{% endif %}>
+                        {{ route }}
+                    </option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">Search</button>
+
+        </form>
+
+        {% if timings %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Bus No</th>
+                        <th>Bus Name</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for busno, busname, time in timings %}
+                        <tr>
+                            <td>{{ busno }}</td>
+                            <td>{{ busname }}</td>
+                            <td>{{ time }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% elif selected_route %}
+
+            <p>No bus timings available for this route.</p>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
